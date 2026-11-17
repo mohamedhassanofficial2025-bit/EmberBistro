@@ -5,10 +5,12 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ShoppingBag, Sun, Moon, UtensilsCrossed } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
+import { useCart } from '@/context/CartContext';
 
 export default function Navbar() {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
+  const { totalItems } = useCart();
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -66,12 +68,15 @@ export default function Navbar() {
           {/* Cart Icon */}
           <Link
             href="/cart"
-            className="relative flex items-center justify-center p-2.5 rounded-xl border border-border-light dark:border-border-dark bg-white dark:bg-surface-dark text-neutral-700 dark:text-neutral-200 hover:text-ember transition-colors"
+            aria-label={`Cart with ${totalItems} items`}
+            className="relative flex items-center justify-center p-2.5 rounded-xl border border-border-light dark:border-border-dark bg-white dark:bg-surface-dark text-neutral-700 dark:text-neutral-200 hover:text-ember transition-colors group"
           >
-            <ShoppingBag className="w-4 h-4" />
-            <span className="absolute -top-1.5 -right-1.5 bg-ember text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-sm">
-              0
-            </span>
+            <ShoppingBag className="w-4 h-4 group-hover:scale-110 transition-transform" />
+            {totalItems > 0 && (
+              <span className="absolute -top-1.5 -right-1.5 bg-gradient-to-r from-ember to-coral text-white text-[10px] font-bold min-w-5 h-5 px-1 rounded-full flex items-center justify-center shadow-glow animate-in zoom-in-50 duration-200">
+                {totalItems}
+              </span>
+            )}
           </Link>
 
           {/* Admin Link */}

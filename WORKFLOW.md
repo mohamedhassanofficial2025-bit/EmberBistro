@@ -113,30 +113,30 @@ restaurant-app/
 
 | # | Task | Owner | Priority | Status |
 |---|---|---|---|---|
-| 2.1 | Create Dish data model (schema + seed data) | Dev | 🔴 Critical | ⬜ To Do |
-| 2.2 | Build `GET /api/dishes` endpoint | Dev | 🔴 Critical | ⬜ To Do |
-| 2.3 | Build `GET /api/dishes/:id` endpoint | Dev | 🟡 Medium | ⬜ To Do |
-| 2.4 | Build Home / Landing page (hero, popular dishes, CTA) | Dev | 🔴 Critical | ⬜ To Do |
-| 2.5 | Build Menu page (dish grid, category tabs, search bar) | Dev | 🔴 Critical | ⬜ To Do |
-| 2.6 | Build Dish Card component | Dev | 🔴 Critical | ⬜ To Do |
-| 2.7 | Build Dish Detail modal / page (image, description, qty selector) | Dev | 🟡 Medium | ⬜ To Do |
-| 2.8 | Add loading skeletons for menu page | Dev | 🟡 Medium | ⬜ To Do |
-| 2.9 | Add empty state for "no dishes found" in search | Dev | 🟡 Medium | ⬜ To Do |
+| 2.1 | Create Dish data model (schema + seed data) | Dev | 🔴 Critical | ✅ Done |
+| 2.2 | Build `GET /api/dishes` endpoint | Dev | 🔴 Critical | ✅ Done |
+| 2.3 | Build `GET /api/dishes/:id` endpoint | Dev | 🟡 Medium | ✅ Done |
+| 2.4 | Build Home / Landing page (hero, popular dishes, CTA) | Dev | 🔴 Critical | ✅ Done |
+| 2.5 | Build Menu page (dish grid, category tabs, search bar) | Dev | 🔴 Critical | ✅ Done |
+| 2.6 | Build Dish Card component | Dev | 🔴 Critical | ✅ Done |
+| 2.7 | Build Dish Detail modal / page (image, description, qty selector) | Dev | 🟡 Medium | ✅ Done |
+| 2.8 | Add loading skeletons for menu page | Dev | 🟡 Medium | ✅ Done |
+| 2.9 | Add empty state for "no dishes found" in search | Dev | 🟡 Medium | ✅ Done |
 
 ### Sprint 2B — Cart & Checkout (Days 4–7)
 
 | # | Task | Owner | Priority | Status |
 |---|---|---|---|---|
-| 2.10 | Create CartContext (add, remove, update qty, clear) | Dev | 🔴 Critical | ⬜ To Do |
-| 2.11 | Persist cart to `localStorage` | Dev | 🔴 Critical | ⬜ To Do |
-| 2.12 | Build Cart page (item list, qty controls, totals) | Dev | 🔴 Critical | ⬜ To Do |
-| 2.13 | Add cart icon to Navbar with item count badge | Dev | 🔴 Critical | ⬜ To Do |
-| 2.14 | Build Checkout page (customer form + order summary) | Dev | 🔴 Critical | ⬜ To Do |
-| 2.15 | Build `POST /api/orders` endpoint | Dev | 🔴 Critical | ⬜ To Do |
-| 2.16 | Build Order Confirmation page (success + order number) | Dev | 🔴 Critical | ⬜ To Do |
-| 2.17 | Add form validation (required fields, email/phone format) | Dev | 🟡 Medium | ⬜ To Do |
-| 2.18 | Add toast notifications (item added, order placed) | Dev | 🟡 Medium | ⬜ To Do |
-| 2.19 | Add error state handling (failed API calls) | Dev | 🟡 Medium | ⬜ To Do |
+| 2.10 | Create CartContext (add, remove, update qty, clear) | Dev | 🔴 Critical | ✅ Done |
+| 2.11 | Persist cart to `localStorage` | Dev | 🔴 Critical | ✅ Done |
+| 2.12 | Build Cart page (item list, qty controls, totals) | Dev | 🔴 Critical | ✅ Done |
+| 2.13 | Add cart icon to Navbar with item count badge | Dev | 🔴 Critical | ✅ Done |
+| 2.14 | Build Checkout page (customer form + order summary) | Dev | 🔴 Critical | ✅ Done |
+| 2.15 | Build `POST /api/orders` endpoint | Dev | 🔴 Critical | ✅ Done |
+| 2.16 | Build Order Confirmation page (success + order number) | Dev | 🔴 Critical | ✅ Done |
+| 2.17 | Add form validation (required fields, email/phone format) | Dev | 🟡 Medium | ✅ Done |
+| 2.18 | Add toast notifications (item added, order placed) | Dev | 🟡 Medium | ✅ Done |
+| 2.19 | Add error state handling (failed API calls) | Dev | 🟡 Medium | ✅ Done |
 
 ---
 
