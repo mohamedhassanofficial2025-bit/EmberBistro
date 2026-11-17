@@ -1,18 +1,20 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { Dish } from '@/types/database';
 import { useCart } from '@/context/CartContext';
-import { Plus, Eye } from 'lucide-react';
+import { Plus, Eye, Utensils } from 'lucide-react';
 
 interface DishCardProps {
   dish: Dish;
   onSelect: (dish: Dish) => void;
+  priority?: boolean;
 }
 
-export default function DishCard({ dish, onSelect }: DishCardProps) {
+export default function DishCard({ dish, onSelect, priority = false }: DishCardProps) {
   const { addToCart } = useCart();
+  const [imgError, setImgError] = useState(false);
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -27,13 +29,22 @@ export default function DishCard({ dish, onSelect }: DishCardProps) {
       <div className="space-y-4">
         {/* Dish Image */}
         <div className="relative w-full h-48 rounded-2xl overflow-hidden bg-neutral-100 dark:bg-neutral-800">
-          <Image
-            src={dish.image}
-            alt={dish.name}
-            fill
-            className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
+          {!imgError && dish.image ? (
+            <Image
+              src={dish.image}
+              alt={dish.name}
+              fill
+              priority={priority}
+              onError={() => setImgError(true)}
+              className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          ) : (
+            <div className="w-full h-full flex flex-col items-center justify-center text-neutral-400 gap-2">
+              <Utensils className="w-8 h-8 text-neutral-300 dark:text-neutral-600" />
+              <span className="text-[10px] font-semibold uppercase tracking-wider">Ember Bistro</span>
+            </div>
+          )}
           <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
             <span className="px-3 py-1.5 rounded-full bg-white/90 dark:bg-surface-dark/90 text-neutral-800 dark:text-neutral-200 text-xs font-semibold backdrop-blur-md shadow-md flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-transform">
               <Eye className="w-3.5 h-3.5 text-ember" />

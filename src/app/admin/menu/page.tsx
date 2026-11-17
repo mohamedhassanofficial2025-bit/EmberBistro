@@ -15,6 +15,7 @@ import {
   Check,
   Utensils,
   RefreshCw,
+  UploadCloud,
 } from 'lucide-react';
 
 const CATEGORIES: DishCategory[] = ['Appetizers', 'Main Course', 'Desserts', 'Drinks'];
@@ -32,6 +33,7 @@ export default function AdminMenuPage() {
   const [editingDish, setEditingDish] = useState<Dish | null>(null);
   const [deletingDish, setDeletingDish] = useState<Dish | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   // Form inputs
   const [formData, setFormData] = useState({
@@ -42,6 +44,38 @@ export default function AdminMenuPage() {
     image: '',
     available: true,
   });
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      showToast('Image size must be under 5MB', 'error');
+      return;
+    }
+
+    setIsUploading(true);
+    try {
+      const uploadData = new FormData();
+      uploadData.append('file', file);
+
+      const res = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: uploadData,
+      });
+      const json = await res.json();
+      if (json.success && json.url) {
+        setFormData((prev) => ({ ...prev, image: json.url }));
+        showToast('Image uploaded to Supabase Storage!', 'success');
+      } else {
+        showToast(json.error || 'Failed to upload image', 'error');
+      }
+    } catch {
+      showToast('Error uploading image', 'error');
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   const fetchDishes = useCallback(async () => {
     setIsLoading(true);
@@ -452,14 +486,62 @@ export default function AdminMenuPage() {
                 />
               </div>
 
-              {/* Image URL */}
-              <div className="space-y-1">
-                <label className="text-xs font-semibold text-neutral-700 dark:text-neutral-300">
-                  Image URL
+              {/* Dish Image Upload & URL */}
+              <div className="space-y-2">
+                <label className="text-xs font-semibold text-neutral-700 dark:text-neutral-300 flex items-center justify-between">
+                  <span>Dish Image</span>
+                  <span className="text-[10px] text-ember font-bold">Supabase Storage CDN</span>
                 </label>
+
+                {/* Image Preview */}
+                {formData.image && (
+                  <div className="relative w-full h-36 rounded-2xl overflow-hidden border border-border-light dark:border-border-dark bg-neutral-100 dark:bg-neutral-800">
+                    <Image
+                      src={formData.image}
+                      alt="Preview"
+                      fill
+                      unoptimized
+                      className="object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, image: '' })}
+                      className="absolute top-2 right-2 p-1.5 rounded-full bg-black/60 text-white hover:bg-rose-600 transition-colors"
+                      title="Remove image"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                )}
+
+                {/* Upload from Device button */}
+                <label className="block cursor-pointer">
+                  <input
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp,image/avif"
+                    onChange={handleImageUpload}
+                    disabled={isUploading}
+                    className="hidden"
+                  />
+                  <div className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-dashed border-ember/40 bg-ember/5 text-ember hover:bg-ember/10 transition-colors text-xs font-semibold">
+                    {isUploading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin text-ember" />
+                        <span>Uploading to Supabase CDN...</span>
+                      </>
+                    ) : (
+                      <>
+                        <UploadCloud className="w-4 h-4" />
+                        <span>Upload Image from Device</span>
+                      </>
+                    )}
+                  </div>
+                </label>
+
+                {/* Or enter URL */}
                 <input
                   type="url"
-                  placeholder="https://images.unsplash.com/..."
+                  placeholder="Or paste direct image URL (https://...)"
                   value={formData.image}
                   onChange={(e) => setFormData({ ...formData, image: e.target.value })}
                   className="w-full px-3.5 py-2.5 rounded-xl text-xs border border-border-light dark:border-border-dark bg-neutral-50 dark:bg-surface-dark text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-ember/20 focus:border-ember"
