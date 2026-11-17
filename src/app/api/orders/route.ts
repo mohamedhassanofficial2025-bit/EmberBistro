@@ -1,15 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
-import connectDB from '@/lib/mongodb';
-import Order from '@/models/Order';
+import { supabase } from '@/lib/supabase/client';
 
 export async function GET() {
   try {
-    await connectDB();
-    const orders = await Order.find().sort({ createdAt: -1 });
-    return NextResponse.json({ success: true, count: orders.length, data: orders });
-  } catch (error) {
+    const { data: orders, error } = await supabase
+      .from('orders')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+    }
+
+    return NextResponse.json({ success: true, count: orders?.length || 0, data: orders });
+  } catch (err) {
     return NextResponse.json(
-      { success: false, error: (error as Error).message },
+      { success: false, error: (err as Error).message },
       { status: 500 }
     );
   }
@@ -17,13 +23,22 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
-    await connectDB();
     const body = await req.json();
-    const order = await Order.create(body);
+
+    const { data: order, error } = await supabase
+      .from('orders')
+      .insert([body])
+      .select()
+      .single();
+
+    if (error) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+    }
+
     return NextResponse.json({ success: true, data: order }, { status: 201 });
-  } catch (error) {
+  } catch (err) {
     return NextResponse.json(
-      { success: false, error: (error as Error).message },
+      { success: false, error: (err as Error).message },
       { status: 400 }
     );
   }

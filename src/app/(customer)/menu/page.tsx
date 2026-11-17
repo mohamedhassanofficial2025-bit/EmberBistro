@@ -1,7 +1,18 @@
 import React from 'react';
-import { Search, SlidersHorizontal } from 'lucide-react';
+import Image from 'next/image';
+import { supabase } from '@/lib/supabase/client';
+import { Dish } from '@/types/database';
+import { Search } from 'lucide-react';
 
-export default function MenuPage() {
+export const revalidate = 60;
+
+export default async function MenuPage() {
+  const { data: dishes } = await supabase
+    .from('dishes')
+    .select('*')
+    .eq('available', true)
+    .order('created_at', { ascending: false });
+
   const categories = ['All', 'Appetizers', 'Main Course', 'Desserts', 'Drinks'];
 
   return (
@@ -12,7 +23,7 @@ export default function MenuPage() {
           Our Culinary Menu
         </h1>
         <p className="text-sm text-neutral-500 dark:text-neutral-400">
-          Explore our handcrafted selection of chef specialties, sides, and beverages.
+          Crafted fresh daily, smoked with natural charcoal, and seasoned to perfection.
         </p>
       </div>
 
@@ -45,37 +56,51 @@ export default function MenuPage() {
         </div>
       </div>
 
-      {/* Menu Grid Placeholder */}
+      {/* Live Menu Grid from Supabase */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
-        {[1, 2, 3, 4, 5, 6].map((item) => (
-          <div
-            key={item}
-            className="p-5 rounded-3xl border border-border-light dark:border-border-dark bg-white dark:bg-surface-cardDark shadow-card dark:shadow-cardDark space-y-4 hover:shadow-glow/20 transition-all"
-          >
-            <div className="w-full h-44 rounded-2xl bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-neutral-400 text-xs">
-              Dish Image
+        {dishes && dishes.length > 0 ? (
+          dishes.map((dish: Dish) => (
+            <div
+              key={dish.id}
+              className="p-5 rounded-3xl border border-border-light dark:border-border-dark bg-white dark:bg-surface-cardDark shadow-card dark:shadow-cardDark space-y-4 hover:shadow-glow/20 transition-all flex flex-col justify-between"
+            >
+              <div className="space-y-4">
+                <div className="relative w-full h-48 rounded-2xl overflow-hidden bg-neutral-100 dark:bg-neutral-800">
+                  <Image
+                    src={dish.image}
+                    alt={dish.name}
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-ember/10 text-ember">
+                    {dish.category}
+                  </span>
+                  <span className="font-bold text-lg text-neutral-900 dark:text-white">
+                    ${Number(dish.price).toFixed(2)}
+                  </span>
+                </div>
+                <div>
+                  <h3 className="font-bold text-base text-neutral-900 dark:text-white">
+                    {dish.name}
+                  </h3>
+                  <p className="text-xs text-neutral-500 dark:text-neutral-400 line-clamp-2 mt-1 leading-relaxed">
+                    {dish.description}
+                  </p>
+                </div>
+              </div>
+              <button className="w-full py-2.5 rounded-xl bg-ember hover:bg-ember-hover text-white text-xs font-semibold shadow-sm transition-colors mt-2">
+                Add to Cart
+              </button>
             </div>
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-ember/10 text-ember">
-                Main Course
-              </span>
-              <span className="font-bold text-base text-neutral-900 dark:text-white">
-                $18.50
-              </span>
-            </div>
-            <div>
-              <h3 className="font-bold text-base text-neutral-900 dark:text-white">
-                Smoked Ember Sirloin #{item}
-              </h3>
-              <p className="text-xs text-neutral-500 dark:text-neutral-400 line-clamp-2 mt-1">
-                Tender char-grilled cut paired with rosemary garlic baby potatoes and signature reduction.
-              </p>
-            </div>
-            <button className="w-full py-2.5 rounded-xl bg-ember hover:bg-ember-hover text-white text-xs font-semibold shadow-sm transition-colors">
-              Add to Cart
-            </button>
+          ))
+        ) : (
+          <div className="col-span-full text-center py-12 text-sm text-neutral-400">
+            No dishes available right now.
           </div>
-        ))}
+        )}
       </div>
     </div>
   );
