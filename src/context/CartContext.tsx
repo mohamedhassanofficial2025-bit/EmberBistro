@@ -104,13 +104,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   const removeFromCart = (dishId: string) => {
-    setItems((prev) => {
-      const target = prev.find((i) => i.dish.id === dishId);
-      if (target) {
-        showToast(`Removed "${target.dish.name}" from cart`, 'info');
-      }
-      return prev.filter((item) => item.dish.id !== dishId);
-    });
+    const target = items.find((i) => i.dish.id === dishId);
+    if (target) {
+      showToast(`Removed "${target.dish.name}" from cart`, 'info');
+    }
+    setItems((prev) => prev.filter((item) => item.dish.id !== dishId));
   };
 
   const clearCart = () => {

@@ -23,7 +23,10 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   const showToast = useCallback(
     (message: string, type: 'success' | 'error' | 'info' = 'success') => {
       const id = Math.random().toString(36).substring(2, 9);
-      setToasts((prev) => [...prev, { id, type, message }]);
+      // Defers to next tick so it never conflicts with an ongoing render cycle
+      setTimeout(() => {
+        setToasts((prev) => [...prev, { id, type, message }]);
+      }, 0);
 
       setTimeout(() => {
         setToasts((prev) => prev.filter((t) => t.id !== id));
