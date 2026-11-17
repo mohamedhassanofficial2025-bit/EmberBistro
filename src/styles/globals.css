@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-primary: #F7F5F2;
+    --surface: #FFFFFF;
+    --text-primary: #1A1A1A;
+    --text-muted: #6B7280;
+    --border: #E5E0DB;
+    --primary: #FF6D4A;
+    --secondary: #EA4B71;
+  }
+
+  .dark {
+    --bg-primary: #171717;
+    --surface: #222222;
+    --text-primary: #F3F4F6;
+    --text-muted: #9CA3AF;
+    --border: #2E2E2E;
+    --primary: #FF6D4A;
+    --secondary: #EA4B71;
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .glass-dark {
+    background: rgba(34, 34, 34, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+}
