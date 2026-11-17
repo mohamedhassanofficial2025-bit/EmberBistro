@@ -3,6 +3,7 @@ import '@/styles/globals.css';
 import { ThemeProvider } from '@/context/ThemeContext';
 import { ToastProvider } from '@/context/ToastContext';
 import { CartProvider } from '@/context/CartContext';
+import { AdminAuthProvider } from '@/context/AdminAuthContext';
 
 export const metadata: Metadata = {
   title: 'EmberBistro — Artisan Flavors & Contemporary Dining',
@@ -20,7 +21,9 @@ export default function RootLayout({
         <ThemeProvider>
           <ToastProvider>
             <CartProvider>
-              {children}
+              <AdminAuthProvider>
+                {children}
+              </AdminAuthProvider>
             </CartProvider>
           </ToastProvider>
         </ThemeProvider>

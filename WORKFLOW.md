@@ -149,38 +149,38 @@ restaurant-app/
 
 | # | Task | Owner | Priority | Status |
 |---|---|---|---|---|
-| 3.1 | Create Admin User model (email, passwordHash, role) | Dev | 🔴 Critical | ⬜ To Do |
-| 3.2 | Build `POST /api/admin/login` endpoint (returns JWT) | Dev | 🔴 Critical | ⬜ To Do |
-| 3.3 | Build Admin Login page | Dev | 🔴 Critical | ⬜ To Do |
-| 3.4 | Create AuthContext for dashboard (token storage, logout) | Dev | 🔴 Critical | ⬜ To Do |
-| 3.5 | Build protected dashboard layout (sidebar + main content area) | Dev | 🔴 Critical | ⬜ To Do |
-| 3.6 | Add auth middleware for protected API routes | Dev | 🔴 Critical | ⬜ To Do |
+| 3.1 | Create Admin User model (email, passwordHash, role) | Dev | 🔴 Critical | ✅ Done |
+| 3.2 | Build `POST /api/admin/login` endpoint (returns JWT) | Dev | 🔴 Critical | ✅ Done |
+| 3.3 | Build Admin Login page | Dev | 🔴 Critical | ✅ Done |
+| 3.4 | Create AuthContext for dashboard (token storage, logout) | Dev | 🔴 Critical | ✅ Done |
+| 3.5 | Build protected dashboard layout (sidebar + main content area) | Dev | 🔴 Critical | ✅ Done |
+| 3.6 | Add auth middleware for protected API routes | Dev | 🔴 Critical | ✅ Done |
 
 ### Sprint 3B — Menu Management (Days 3–4)
 
 | # | Task | Owner | Priority | Status |
 |---|---|---|---|---|
-| 3.7 | Build `GET /api/admin/dishes` endpoint (all dishes) | Dev | 🔴 Critical | ⬜ To Do |
-| 3.8 | Build `POST /api/admin/dishes` endpoint (add dish) | Dev | 🔴 Critical | ⬜ To Do |
-| 3.9 | Build `PUT /api/admin/dishes/:id` endpoint (edit dish) | Dev | 🔴 Critical | ⬜ To Do |
-| 3.10 | Build `DELETE /api/admin/dishes/:id` endpoint (delete dish) | Dev | 🔴 Critical | ⬜ To Do |
-| 3.11 | Build Menu Management page (table view + actions) | Dev | 🔴 Critical | ⬜ To Do |
-| 3.12 | Build Add/Edit Dish form (modal or page) | Dev | 🔴 Critical | ⬜ To Do |
-| 3.13 | Implement image upload for dishes | Dev | 🟡 Medium | ⬜ To Do |
-| 3.14 | Add delete confirmation dialog | Dev | 🟡 Medium | ⬜ To Do |
-| 3.15 | Add availability toggle (quick switch) | Dev | 🟡 Medium | ⬜ To Do |
+| 3.7 | Build `GET /api/admin/dishes` endpoint (all dishes) | Dev | 🔴 Critical | ✅ Done |
+| 3.8 | Build `POST /api/admin/dishes` endpoint (add dish) | Dev | 🔴 Critical | ✅ Done |
+| 3.9 | Build `PUT /api/admin/dishes/:id` endpoint (edit dish) | Dev | 🔴 Critical | ✅ Done |
+| 3.10 | Build `DELETE /api/admin/dishes/:id` endpoint (delete dish) | Dev | 🔴 Critical | ✅ Done |
+| 3.11 | Build Menu Management page (table view + actions) | Dev | 🔴 Critical | ✅ Done |
+| 3.12 | Build Add/Edit Dish form (modal or page) | Dev | 🔴 Critical | ✅ Done |
+| 3.13 | Implement image upload for dishes | Dev | 🟡 Medium | ✅ Done |
+| 3.14 | Add delete confirmation dialog | Dev | 🟡 Medium | ✅ Done |
+| 3.15 | Add availability toggle (quick switch) | Dev | 🟡 Medium | ✅ Done |
 
 ### Sprint 3C — Order Management & Overview (Days 5–7)
 
 | # | Task | Owner | Priority | Status |
 |---|---|---|---|---|
-| 3.16 | Build `GET /api/admin/orders` endpoint | Dev | 🔴 Critical | ⬜ To Do |
-| 3.17 | Build `PUT /api/admin/orders/:id/status` endpoint | Dev | 🔴 Critical | ⬜ To Do |
-| 3.18 | Build `GET /api/admin/stats` endpoint (today's stats) | Dev | 🟡 Medium | ⬜ To Do |
-| 3.19 | Build Orders Management page (table + status update) | Dev | 🔴 Critical | ⬜ To Do |
-| 3.20 | Build Order Detail view (items, instructions, customer info) | Dev | 🟡 Medium | ⬜ To Do |
-| 3.21 | Build Dashboard Overview page (stat cards + recent orders) | Dev | 🔴 Critical | ⬜ To Do |
-| 3.22 | Add new order notification (audio/visual) | Dev | 🟢 Low | ⬜ To Do |
+| 3.16 | Build `GET /api/admin/orders` endpoint | Dev | 🔴 Critical | ✅ Done |
+| 3.17 | Build `PUT /api/admin/orders/:id/status` endpoint | Dev | 🔴 Critical | ✅ Done |
+| 3.18 | Build `GET /api/admin/stats` endpoint (today's stats) | Dev | 🟡 Medium | ✅ Done |
+| 3.19 | Build Orders Management page (table + status update) | Dev | 🔴 Critical | ✅ Done |
+| 3.20 | Build Order Detail view (items, instructions, customer info) | Dev | 🟡 Medium | ✅ Done |
+| 3.21 | Build Dashboard Overview page (stat cards + recent orders) | Dev | 🔴 Critical | ✅ Done |
+| 3.22 | Add new order notification (audio/visual) | Dev | 🟢 Low | ✅ Done |
 
 ---
 

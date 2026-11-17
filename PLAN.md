@@ -1,6 +1,6 @@
 # 📋 Restaurant App — Engineering Execution Plan
 
-**Status:** Phase 1 & Phase 2 Complete (Ordering & Cart Flow Fully Functional)  
+**Status:** Phase 1, Phase 2 & Phase 3 Complete (Full Operations & Kitchen Management Active)  
 **Database & Backend:** Supabase PostgreSQL (`RestaurantApp`, ref: `ifikukoynoxstjozoepd`)  
 **Quality Gate Target:** Score ≥ 9/10  
 **Design Theme:** Ember Modern (`#FF6D4A` Primary, `#EA4B71` Secondary, Inter Typography)
@@ -47,12 +47,40 @@
 
 ---
 
+## Phase 3 — Owner Dashboard
+
+### Sprint 3A — Auth & Dashboard Shell
+- [x] **3.1 Admin User Model**: Structured session model with roles (`owner`, `admin`).
+- [x] **3.2 Admin Login API**: `/api/admin/login` validating session.
+- [x] **3.3 Admin Login Page**: Ember Modern login with one-click demo filler and error alerts.
+- [x] **3.4 Admin Auth Context**: Persistent session management with `useAdminAuth()`.
+- [x] **3.5 Protected Dashboard Layout**: Redirects unauthorized visitors, active kitchen status indicator.
+- [x] **3.6 Auth Route Protection**: Route-level guards preventing unauthenticated access.
+
+### Sprint 3B — Menu Management
+- [x] **3.7 GET /api/admin/dishes**: Retrieves full catalog including hidden items.
+- [x] **3.8 POST /api/admin/dishes**: Adds new dish directly to Supabase.
+- [x] **3.9 PUT /api/admin/dishes/:id**: Updates dish details and prices.
+- [x] **3.10 DELETE /api/admin/dishes/:id**: Removes dish from catalog.
+- [x] **3.11 Menu Management Page**: High-density table with category filters and real-time search.
+- [x] **3.12 Add / Edit Dish Modal**: Complete form for dish name, description, price, category, and image URL.
+- [x] **3.13 Image URL Integration**: Remote image hosting with Unsplash / Supabase URLs.
+- [x] **3.14 Delete Confirmation Modal**: Destructive action safety gate.
+- [x] **3.15 Availability Toggle**: Instant optimistic toggle for items currently in stock.
+
+### Sprint 3C — Order Management & Overview
+- [x] **3.16 GET /api/admin/orders**: Fetches customer order queue from Supabase.
+- [x] **3.17 PUT /api/admin/orders/:id/status**: Transitions order status (`New` ➔ `Preparing` ➔ `Ready` ➔ `Completed`).
+- [x] **3.18 GET /api/admin/stats**: Live KPI aggregation (Revenue, Total Orders, Pending Tickets, Active Dishes).
+- [x] **3.19 Orders Management Page**: Live status dropdowns, customer contact numbers, delivery addresses.
+- [x] **3.20 Order Detail Ticket View**: Detailed drawer modal showing item breakdown and notes.
+- [x] **3.21 Dashboard Overview Page**: 4 Bento stat cards + recent incoming orders feed.
+- [x] **3.22 Kitchen Pipeline Badge**: Status indicators and real-time refresh controls.
+
+---
+
 ## Upcoming Phases
 
-- **Phase 3 — Owner Dashboard**
-  - Sprint 3A: Admin Auth & protected layout.
-  - Sprint 3B: Menu CRUD directly updating Supabase `dishes`.
-  - Sprint 3C: Live Order pipeline with Supabase Realtime subscriptions.
 - **Phase 4 — Integration & Polish**
 - **Phase 5 — Visual & Functional Quality Gate (`/audit`)**
 - **Phase 6 — Deployment & Launch**
