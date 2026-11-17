@@ -190,27 +190,27 @@ export default function AdminMenuPage() {
   });
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto">
+    <div className="space-y-10 w-full">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-border-light dark:border-border-dark">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900 dark:text-white">
+          <h1 className="text-3xl font-extrabold text-neutral-900 dark:text-white tracking-tight">
             Menu Catalog Management
           </h1>
-          <p className="text-xs text-neutral-500 dark:text-neutral-400">
+          <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 mt-1">
             Create, update dish pricing, adjust categories, and toggle daily availability.
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <button
             onClick={fetchDishes}
-            className="p-2.5 rounded-xl border border-border-light dark:border-border-dark bg-white dark:bg-surface-cardDark text-neutral-600 dark:text-neutral-300 hover:text-ember transition-colors"
+            className="p-3 rounded-2xl border border-border-light dark:border-border-dark bg-white dark:bg-surface-cardDark text-neutral-600 dark:text-neutral-300 hover:text-ember transition-colors shadow-sm"
           >
             <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
           </button>
           <button
             onClick={handleOpenCreate}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-ember to-coral text-white text-xs font-semibold shadow-glow hover:opacity-95 transition-all"
+            className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-gradient-to-r from-ember to-coral text-white text-xs font-semibold shadow-glow hover:opacity-95 transition-all"
           >
             <Plus className="w-4 h-4" />
             <span>Add New Dish</span>

@@ -102,20 +102,20 @@ export default function AdminOrdersPage() {
   };
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto">
+    <div className="space-y-10 w-full">
       {/* Title */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-border-light dark:border-border-dark">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900 dark:text-white">
+          <h1 className="text-3xl font-extrabold text-neutral-900 dark:text-white tracking-tight">
             Kitchen & Order Pipeline
           </h1>
-          <p className="text-xs text-neutral-500 dark:text-neutral-400">
+          <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 mt-1">
             Real-time ticket board for customer orders, status transitions, and deliveries.
           </p>
         </div>
         <button
           onClick={fetchOrders}
-          className="self-start sm:self-auto inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border border-border-light dark:border-border-dark bg-white dark:bg-surface-cardDark text-xs font-semibold text-neutral-700 dark:text-neutral-300 hover:text-ember transition-colors"
+          className="self-start sm:self-auto inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl border border-border-light dark:border-border-dark bg-white dark:bg-surface-cardDark text-xs font-semibold text-neutral-700 dark:text-neutral-300 hover:text-ember transition-colors shadow-sm"
         >
           <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
           <span>Refresh Queue</span>

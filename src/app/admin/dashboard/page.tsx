@@ -87,28 +87,28 @@ export default function DashboardOverviewPage() {
   ];
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto">
+    <div className="space-y-10 w-full">
       {/* Title & Quick Actions */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-border-light dark:border-border-dark">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900 dark:text-white">
+          <h1 className="text-3xl font-extrabold text-neutral-900 dark:text-white tracking-tight">
             Operations & Performance
           </h1>
-          <p className="text-xs text-neutral-500 dark:text-neutral-400">
+          <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 mt-1">
             Real-time analytics and quick kitchen controls.
           </p>
         </div>
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-3">
           <button
             onClick={loadData}
             aria-label="Refresh stats"
-            className="p-2.5 rounded-xl border border-border-light dark:border-border-dark bg-white dark:bg-surface-cardDark text-neutral-600 dark:text-neutral-300 hover:text-ember transition-colors"
+            className="p-3 rounded-2xl border border-border-light dark:border-border-dark bg-white dark:bg-surface-cardDark text-neutral-600 dark:text-neutral-300 hover:text-ember transition-colors shadow-sm"
           >
             <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
           </button>
           <Link
             href="/admin/menu"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-ember to-coral text-white text-xs font-semibold shadow-glow hover:opacity-95 transition-all"
+            className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-gradient-to-r from-ember to-coral text-white text-xs font-semibold shadow-glow hover:opacity-95 transition-all"
           >
             <Plus className="w-4 h-4" />
             <span>Manage Menu</span>
@@ -117,28 +117,28 @@ export default function DashboardOverviewPage() {
       </div>
 
       {/* Bento Grid Stat Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {statCards.map((stat) => {
           const Icon = stat.icon;
           return (
             <div
               key={stat.name}
-              className="p-5 rounded-3xl border border-border-light dark:border-border-dark bg-white dark:bg-surface-cardDark shadow-card dark:shadow-cardDark space-y-3"
+              className="p-6 rounded-3xl border border-border-light dark:border-border-dark bg-white dark:bg-surface-cardDark shadow-card dark:shadow-cardDark space-y-4 hover:shadow-glow/20 transition-all"
             >
               <div className="flex items-center justify-between">
                 <span className="text-xs font-semibold text-neutral-500 dark:text-neutral-400">
                   {stat.name}
                 </span>
-                <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${stat.color}`}>
-                  <Icon className="w-4 h-4" />
+                <div className={`w-10 h-10 rounded-2xl flex items-center justify-center ${stat.color}`}>
+                  <Icon className="w-5 h-5" />
                 </div>
               </div>
               <div>
-                <span className="text-2xl font-extrabold text-neutral-900 dark:text-white">
+                <span className="text-3xl font-extrabold text-neutral-900 dark:text-white tracking-tight">
                   {stat.value}
                 </span>
               </div>
-              <div className="flex items-center gap-1.5 text-xs text-neutral-500 dark:text-neutral-400">
+              <div className="flex items-center gap-1.5 text-xs text-neutral-500 dark:text-neutral-400 pt-1">
                 <TrendingUp className="w-3.5 h-3.5 text-emerald-500" />
                 <span>{stat.detail}</span>
               </div>
@@ -148,7 +148,7 @@ export default function DashboardOverviewPage() {
       </div>
 
       {/* Recent Orders Queue */}
-      <div className="p-6 md:p-7 rounded-3xl border border-border-light dark:border-border-dark bg-white dark:bg-surface-cardDark shadow-card dark:shadow-cardDark space-y-5">
+      <div className="p-7 sm:p-8 rounded-3xl border border-border-light dark:border-border-dark bg-white dark:bg-surface-cardDark shadow-card dark:shadow-cardDark space-y-6">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="font-bold text-base text-neutral-900 dark:text-white">
