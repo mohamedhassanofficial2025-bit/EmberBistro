@@ -10,7 +10,6 @@ import {
   Truck,
   CreditCard,
   Banknote,
-  ArrowRight,
   ArrowLeft,
   Loader2,
   MapPin,

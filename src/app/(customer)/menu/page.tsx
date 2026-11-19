@@ -3,7 +3,7 @@ import { supabase } from '@/lib/supabase/client';
 import { Dish } from '@/types/database';
 import MenuClient from '@/components/customer/MenuClient';
 
-export const revalidate = 60;
+export const revalidate = 5;
 
 export default async function MenuPage() {
   const { data: dishes } = await supabase

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { TrendingUp, BarChart3, PieChart, Users, DollarSign, Calendar } from 'lucide-react';
+import { BarChart3, PieChart, Users, DollarSign, Calendar } from 'lucide-react';
 
 export default function AdminAnalyticsPage() {
   return (

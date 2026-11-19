@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { supabase } from '@/lib/supabase/client';
 
 // GET /api/admin/dishes - returns all dishes including unavailable
@@ -54,6 +55,10 @@ export async function POST(req: NextRequest) {
     if (error) {
       return NextResponse.json({ success: false, error: error.message }, { status: 400 });
     }
+
+    // Instantly purge stale cache for customer pages
+    revalidatePath('/', 'page');
+    revalidatePath('/menu', 'page');
 
     return NextResponse.json({ success: true, data: newDish }, { status: 201 });
   } catch (err) {

@@ -3,9 +3,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabase/client';
 import { Dish } from '@/types/database';
-import { ArrowRight, Sparkles, Flame, Clock, Award, Star, UtensilsCrossed } from 'lucide-react';
+import { ArrowRight, Sparkles, Flame, Clock, Award, Star } from 'lucide-react';
 
-export const revalidate = 60;
+export const revalidate = 5;
 
 export default async function HomePage() {
   const { data: popularDishes } = await supabase

@@ -15,7 +15,6 @@ import {
   Phone,
   Mail,
   MapPin,
-  Sparkles,
 } from 'lucide-react';
 
 export default function AdminSettingsPage() {

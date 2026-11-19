@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { supabase } from '@/lib/supabase/client';
 
 // PUT /api/admin/dishes/:id - update a dish
@@ -30,6 +31,10 @@ export async function PUT(
       return NextResponse.json({ success: false, error: error.message }, { status: 400 });
     }
 
+    // Instantly purge stale cache
+    revalidatePath('/', 'page');
+    revalidatePath('/menu', 'page');
+
     return NextResponse.json({ success: true, data: updatedDish });
   } catch (err) {
     return NextResponse.json(
@@ -55,6 +60,10 @@ export async function DELETE(
     if (error) {
       return NextResponse.json({ success: false, error: error.message }, { status: 400 });
     }
+
+    // Instantly purge stale cache
+    revalidatePath('/', 'page');
+    revalidatePath('/menu', 'page');
 
     return NextResponse.json({ success: true, message: 'Dish deleted successfully' });
   } catch (err) {

@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { supabase } from '@/lib/supabase/client';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
@@ -51,6 +54,9 @@ export async function PUT(req: NextRequest) {
     if (error) {
       return NextResponse.json({ success: false, error: error.message }, { status: 400 });
     }
+
+    // Instantly purge stale cache across all routes
+    revalidatePath('/', 'layout');
 
     return NextResponse.json({ success: true, data });
   } catch (err) {

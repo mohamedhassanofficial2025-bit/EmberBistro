@@ -5,17 +5,12 @@ import { Order, OrderStatus } from '@/types/database';
 import { useToast } from '@/context/ToastContext';
 import {
   ShoppingBag,
-  Clock,
-  CheckCircle2,
-  XCircle,
-  Truck,
   Phone,
   Mail,
   MapPin,
   RefreshCw,
   Eye,
   X,
-  FileText,
   Loader2,
 } from 'lucide-react';
 
