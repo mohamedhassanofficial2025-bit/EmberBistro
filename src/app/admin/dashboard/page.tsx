@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Order } from '@/types/database';
+import { supabase } from '@/lib/supabase/client';
 import {
   DollarSign,
   ShoppingBag,
@@ -53,6 +54,22 @@ export default function DashboardOverviewPage() {
 
   useEffect(() => {
     loadData();
+
+    // Live sync dashboard when new orders arrive or status changes
+    const channel = supabase
+      .channel('realtime:dashboard-stats')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'orders' },
+        () => {
+          loadData();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   const statCards = [
