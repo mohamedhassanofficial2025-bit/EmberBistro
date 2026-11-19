@@ -37,3 +37,18 @@ export interface Order {
   created_at: string;
   updated_at: string;
 }
+
+export interface RestaurantSettings {
+  id: string;
+  restaurant_name: string;
+  tagline: string;
+  phone: string;
+  email: string;
+  address: string;
+  tax_rate: number;
+  delivery_fee: number;
+  currency_symbol: string;
+  opening_hours: string;
+  logo_url?: string | null;
+  updated_at: string;
+}

@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Dish } from '@/types/database';
 import { useToast } from './ToastContext';
+import { useSettings } from './SettingsContext';
 
 export interface CartItem {
   dish: Dish;
@@ -35,12 +36,12 @@ const CartContext = createContext<CartContextType>({
 });
 
 const CART_STORAGE_KEY = 'ember_bistro_cart_v1';
-const TAX_RATE = 0.1; // 10% tax
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const { showToast } = useToast();
+  const { settings } = useSettings();
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -125,7 +126,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     (sum, item) => sum + Number(item.dish.price) * item.quantity,
     0
   );
-  const tax = Number((subtotal * TAX_RATE).toFixed(2));
+  const taxRate = (settings?.tax_rate ?? 10) / 100;
+  const tax = Number((subtotal * taxRate).toFixed(2));
   const total = Number((subtotal + tax).toFixed(2));
 
   return (

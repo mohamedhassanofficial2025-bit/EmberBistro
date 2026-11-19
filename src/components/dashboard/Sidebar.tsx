@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
@@ -21,6 +22,7 @@ import {
 } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
 import { useAdminAuth } from '@/context/AdminAuthContext';
+import { useSettings } from '@/context/SettingsContext';
 
 interface SidebarProps {
   isMobileOpen?: boolean;
@@ -34,6 +36,7 @@ export default function DashboardSidebar({
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
   const { logout } = useAdminAuth();
+  const { settings } = useSettings();
 
   // Desktop Hover and Pin states
   const [isHovered, setIsHovered] = useState(false);
@@ -81,16 +84,28 @@ export default function DashboardSidebar({
               onClick={onMobileClose}
               className="flex items-center gap-3 overflow-hidden group"
             >
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-ember to-coral flex items-center justify-center text-white shadow-glow shrink-0 group-hover:scale-105 transition-transform">
-                <Utensils className="w-5 h-5" />
-              </div>
+              {settings.logo_url ? (
+                <div className="relative w-10 h-10 rounded-2xl overflow-hidden shadow-glow shrink-0 border border-border-light dark:border-border-dark bg-white dark:bg-surface-cardDark">
+                  <Image
+                    src={settings.logo_url}
+                    alt={settings.restaurant_name}
+                    fill
+                    unoptimized
+                    className="object-contain p-1"
+                  />
+                </div>
+              ) : (
+                <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-ember to-coral flex items-center justify-center text-white shadow-glow shrink-0 group-hover:scale-105 transition-transform">
+                  <Utensils className="w-5 h-5" />
+                </div>
+              )}
               <div
                 className={`whitespace-nowrap transition-opacity duration-200 ${
                   isExpandedDesktop || isMobileOpen ? 'opacity-100' : 'hidden'
                 }`}
               >
-                <h2 className="font-extrabold text-base tracking-tight text-neutral-900 dark:text-white leading-tight">
-                  Ember<span className="text-ember">Manager</span>
+                <h2 className="font-extrabold text-base tracking-tight text-neutral-900 dark:text-white leading-tight truncate max-w-[140px]">
+                  {settings.restaurant_name}
                 </h2>
                 <span className="text-[10px] text-neutral-400 font-semibold uppercase tracking-wider">
                   Kitchen Portal

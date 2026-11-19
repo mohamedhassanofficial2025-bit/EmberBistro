@@ -2,15 +2,18 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { ShoppingBag, Sun, Moon, UtensilsCrossed } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
 import { useCart } from '@/context/CartContext';
+import { useSettings } from '@/context/SettingsContext';
 
 export default function Navbar() {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
   const { totalItems } = useCart();
+  const { settings } = useSettings();
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -23,13 +26,25 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b border-border-light dark:border-border-dark glass dark:glass-dark transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-ember to-coral flex items-center justify-center text-white shadow-glow group-hover:scale-105 transition-transform">
-            <UtensilsCrossed className="w-5 h-5" />
-          </div>
+        <Link href="/" className="flex items-center gap-2.5 group">
+          {settings.logo_url ? (
+            <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-glow border border-border-light dark:border-border-dark bg-white dark:bg-surface-cardDark">
+              <Image
+                src={settings.logo_url}
+                alt={settings.restaurant_name}
+                fill
+                unoptimized
+                className="object-contain p-1"
+              />
+            </div>
+          ) : (
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-ember to-coral flex items-center justify-center text-white shadow-glow group-hover:scale-105 transition-transform">
+              <UtensilsCrossed className="w-5 h-5" />
+            </div>
+          )}
           <div>
-            <span className="font-bold text-xl tracking-tight text-neutral-900 dark:text-white">
-              Ember<span className="text-ember">Bistro</span>
+            <span className="font-bold text-xl tracking-tight text-neutral-900 dark:text-white group-hover:text-ember transition-colors">
+              {settings.restaurant_name}
             </span>
           </div>
         </Link>
