@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { RestaurantSettings } from '@/types/database';
+import { supabase } from '@/lib/supabase/client';
 
 const DEFAULT_SETTINGS: RestaurantSettings = {
   id: 'main',
@@ -48,6 +49,26 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     fetchSettings();
   }, [fetchSettings]);
+
+  // Realtime subscription for instant brand/settings updates across all open tabs
+  useEffect(() => {
+    const channel = supabase
+      .channel('realtime:restaurant-settings')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'restaurant_settings' },
+        (payload) => {
+          if (payload.new && (payload.new as RestaurantSettings).id === 'main') {
+            setSettings(payload.new as RestaurantSettings);
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
   const updateSettings = async (partial: Partial<RestaurantSettings>) => {
     try {

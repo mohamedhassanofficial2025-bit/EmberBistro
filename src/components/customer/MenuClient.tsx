@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Dish, DishCategory } from '@/types/database';
+import { supabase } from '@/lib/supabase/client';
 import DishCard from '@/components/customer/DishCard';
 import DishDetailModal from '@/components/customer/DishDetailModal';
 import { Search, UtensilsCrossed, Sparkles } from 'lucide-react';
@@ -19,12 +20,59 @@ const CATEGORIES: ('All' | DishCategory)[] = [
 ];
 
 export default function MenuClient({ initialDishes }: MenuClientProps) {
+  const [dishes, setDishes] = useState<Dish[]>(initialDishes);
   const [selectedCategory, setSelectedCategory] = useState<'All' | DishCategory>('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeModalDish, setActiveModalDish] = useState<Dish | null>(null);
 
+  // Sync if initialDishes changes (e.g. page navigation)
+  useEffect(() => {
+    setDishes(initialDishes);
+  }, [initialDishes]);
+
+  // Realtime subscription for instant live updates without page refresh
+  useEffect(() => {
+    const channel = supabase
+      .channel('realtime:customer-menu-dishes')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'dishes' },
+        (payload) => {
+          if (payload.eventType === 'INSERT') {
+            const newDish = payload.new as Dish;
+            if (newDish.available) {
+              setDishes((prev) => [newDish, ...prev.filter((d) => d.id !== newDish.id)]);
+            }
+          } else if (payload.eventType === 'UPDATE') {
+            const updatedDish = payload.new as Dish;
+            setDishes((prev) => {
+              if (!updatedDish.available) {
+                return prev.filter((d) => d.id !== updatedDish.id);
+              }
+              const exists = prev.some((d) => d.id === updatedDish.id);
+              if (exists) {
+                return prev.map((d) => (d.id === updatedDish.id ? updatedDish : d));
+              } else {
+                return [updatedDish, ...prev];
+              }
+            });
+          } else if (payload.eventType === 'DELETE') {
+            const deletedId = (payload.old as { id?: string })?.id;
+            if (deletedId) {
+              setDishes((prev) => prev.filter((d) => d.id !== deletedId));
+            }
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
   const filteredDishes = useMemo(() => {
-    return initialDishes.filter((dish) => {
+    return dishes.filter((dish) => {
       const matchesCategory =
         selectedCategory === 'All' || dish.category === selectedCategory;
       const matchesSearch =
@@ -32,7 +80,7 @@ export default function MenuClient({ initialDishes }: MenuClientProps) {
         dish.description.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;
     });
-  }, [initialDishes, selectedCategory, searchQuery]);
+  }, [dishes, selectedCategory, searchQuery]);
 
   return (
     <div className="space-y-8">

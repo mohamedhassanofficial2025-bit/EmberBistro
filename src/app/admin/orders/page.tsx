@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Order, OrderStatus } from '@/types/database';
 import { useToast } from '@/context/ToastContext';
+import { supabase } from '@/lib/supabase/client';
 import {
   ShoppingBag,
   Phone,
@@ -50,6 +51,36 @@ export default function AdminOrdersPage() {
   useEffect(() => {
     fetchOrders();
   }, [fetchOrders]);
+
+  // Realtime subscription for instant order arrivals and kitchen status updates
+  useEffect(() => {
+    const channel = supabase
+      .channel('realtime:admin-kitchen-orders')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'orders' },
+        (payload) => {
+          if (payload.eventType === 'INSERT') {
+            const newOrder = payload.new as Order;
+            setOrders((prev) => [newOrder, ...prev.filter((o) => o.id !== newOrder.id)]);
+            showToast(`🔔 New Order! #${newOrder.id.slice(0, 6)} by ${newOrder.customer_name}`, 'success');
+          } else if (payload.eventType === 'UPDATE') {
+            const updated = payload.new as Order;
+            setOrders((prev) => prev.map((o) => (o.id === updated.id ? updated : o)));
+          } else if (payload.eventType === 'DELETE') {
+            const deletedId = (payload.old as { id?: string })?.id;
+            if (deletedId) {
+              setOrders((prev) => prev.filter((o) => o.id !== deletedId));
+            }
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [showToast]);
 
   // Update status (Optimistic UI)
   const handleUpdateStatus = async (orderId: string, nextStatus: OrderStatus) => {

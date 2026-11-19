@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { Dish, DishCategory } from '@/types/database';
 import { useToast } from '@/context/ToastContext';
+import { supabase } from '@/lib/supabase/client';
 import {
   Plus,
   Search,
@@ -97,6 +98,35 @@ export default function AdminMenuPage() {
   useEffect(() => {
     fetchDishes();
   }, [fetchDishes]);
+
+  // Realtime subscription for admin menu updates
+  useEffect(() => {
+    const channel = supabase
+      .channel('realtime:admin-menu-dishes')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'dishes' },
+        (payload) => {
+          if (payload.eventType === 'INSERT') {
+            const newDish = payload.new as Dish;
+            setDishes((prev) => [newDish, ...prev.filter((d) => d.id !== newDish.id)]);
+          } else if (payload.eventType === 'UPDATE') {
+            const updated = payload.new as Dish;
+            setDishes((prev) => prev.map((d) => (d.id === updated.id ? updated : d)));
+          } else if (payload.eventType === 'DELETE') {
+            const deletedId = (payload.old as { id?: string })?.id;
+            if (deletedId) {
+              setDishes((prev) => prev.filter((d) => d.id !== deletedId));
+            }
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
   // Open modal for Create
   const handleOpenCreate = () => {
